@@ -1,0 +1,19 @@
+Try with
+---------
+
+Header ->  Accept  [ value : text/html,text/xml, text/plain ]
+
+
+Post Request
+------------
+
+Content-type: application/xml
+
+url : http://localhost:8080/lab1/webapi/hello
+
+body :
+
+<order>
+    <orderID>101</orderID>
+    <orderName>laptop</orderName>
+</order>

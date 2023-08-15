@@ -1,0 +1,45 @@
+Get method
+==========
+
+Test your get method REST service
+
+URL :http://localhost:8080/lab3/rest/country
+
+
+Post method
+===========
+
+Post method is used to create new resource. Here we are adding new Country England to country list, so we can see we have used 
+new country json in post body.
+
+URL: http://localhost:8080/lab3/rest/country
+
+<country>
+<countryName>India</countryName>
+<population>10000</population>
+</country>
+
+
+Put Method
+==========
+
+Put method is used to update resource. Here will update population of nepal using put method.
+We will update country json in body of request.
+
+URL : http://localhost:8080/lab3/rest/country
+
+<country>
+<countryName>India</countryName>
+<id>2</id>
+<population>10000</population>
+</country>
+
+
+Delete method
+=============
+
+Delete method is used to delete resource.We will pass id of country which needs to be deleted as PathParam. 
+We are going delete id:4 i.e. china to demonstrate delete method.
+
+URL : http://localhost:8080/lab3/rest/country/4
+

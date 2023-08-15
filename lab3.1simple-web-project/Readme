@@ -1,0 +1,13 @@
+Run the maven goal :
+mvn tomcat7:run
+
+
+To test the application
+http://localhost:8080/hello
+
+
+To deploy in the external tomcat
+====================
+1. copy sample-web.war in tomcat/webapps folder
+2. http://localhost:8080/sample-web/hello
+
