@@ -21,7 +21,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 @ExceptionHandler(EmptyResultDataAccessException.class)
 public ResponseEntity<String> noCityFound(DataAccessException e) {
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Customer found");
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No City found");
 }
 
 
