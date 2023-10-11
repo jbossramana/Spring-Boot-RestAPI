@@ -32,8 +32,9 @@ Content-Length: 100
 
 [description of changes]
 
-
+========================================
 PATCH ->  localhost:8080/customer/adv/1
+Content-Type -> application/json-patch+json
 
 1.JSON patch operation to update the customer's telephone number:
 
