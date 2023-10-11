@@ -28,6 +28,19 @@ public class EmployeeRESTController
           .allow(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.OPTIONS)
               .build();
    }
- 
+
+	 @RequestMapping( method = RequestMethod.HEAD)
+   public ResponseEntity<String> headRequest() {
+       // Perform any necessary logic for the HEAD request.
+       
+       // Create a response message
+       String message = "This is a sample response for HEAD request.";
+       
+       // Return the message with appropriate headers
+       return ResponseEntity.ok()
+           .header("Custom-Header", "SomeValue")
+           .body(message);
+   }
+   
 
 }
