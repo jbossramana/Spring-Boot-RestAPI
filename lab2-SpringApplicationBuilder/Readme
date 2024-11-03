@@ -1,0 +1,16 @@
+Application Context Hierarchy
+=============================
+
+We can have multiple application contexts that share a parent-child relationship.
+
+A context hierarchy allows multiple child contexts to share beans which reside in the parent context. Each child context can override configuration inherited from the parent context.
+
+Furthermore, we can use contexts to prevent beans registered in one context from being accessible in another. This facilitates the creation of loosely coupled modules.
+
+Using SpringApplicationBuilder API
+The SpringApplicationBuilder class provides a fluent API to create a parent-child relationship between contexts using parent(), child() and sibling() methods.
+
+Finally, on running the Spring Boot App we can access both applications at their respective ports using:
+localhost:8081/ctx1/home 
+localhost:8082/ctx2/greeting
+

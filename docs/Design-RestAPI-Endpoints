@@ -1,0 +1,212 @@
+HTTP : Hyper Text Transport Protocol
+SOAP : Simple Object Access Protocol
+REST : Representational State Transfer
+
+
+SOAP (Message Exchange Protocol)
+--------
+HTTP  (Application Protocol)
+--------
+TCP/IP  (Transport Protocol)
+
+* SOAP is not using all the features provided by HTTP, it uses only POST method
+* Soap has its own message structure, operations
+
+
+
+REST  (a concept / design pattern)
+--------
+HTTP  (Application Protocol)
+--------
+TCP/IP  (Transport Protocol)
+
+
+
+Webservice API can be developed using HTTP features:
+
+HTTP  (Application Protocol)
+|_ Http Message
+      |_ Request
+      |_ Response
+|_ Http Methods
+     |_ GET(Read) , POST(Insert), PUT(Update), DELETE (Delete)
+|_ MIME types   (Multipurpose Internet Mail Extensions (MIME) )
+     |_ application/xml
+     |_ application/json
+
+
+User Registration Service  API
+------------------------------------------
+Resource : user
+
+Http methods used for CRUD operation:
+Retrieve the data :  GET
+Insert a user : POST
+update a user : PUT
+delete a user/ all users  : DELETE
+
+Identify the endpoint:
+
+/user   : GET, POST, DELETE
+/user/<user-id>  GET,PUT,DELETE
+
+Retrieve all the users
+/user :  GET
+
+To insert a new user
+/user : POST
+
+To delete all users
+/user : DELETE
+
+To retrieve the content of user 10
+/user/10 : GET
+
+To update the content of user 10
+/user/10  : PUT
+
+To delete a user 10
+/user/10  : DELETE
+
+
+Custome queries:   [Request/application/query/metrix parameters]
+
+Retrieve the content of all the users, registered in year 2021
+/user/2021  GET  X
+/user?year=2021       GET
+
+Retreive the first 10 users, registered in the year 2021
+/user?year=2021&start=1&size=10
+
+
+
+
+Rest API implementation:
+Java , Python, .net , GO
+
+Rest API development using JAVA
+|_ JAX-RS (JSR 370: JavaTM API for RESTful Web Services (JAX-RS 2.1) Specification)  : Implementors (Apache CXF, Eclipse Jersey)
+|_ Spring MVC (Framework)
+
+
+
+
+
+First Example
+|_ lab1-RestBasic
+      |_ JAX-RS annotations (@Path, @GET) -> Jersey (web.xml) -> Tomcat (Web Conatiner / Web server)
+
+
+
+Country Service Rest API
+
+Resource Name : country
+
+Endpoint:
+
+/country   GET, POST, DELETE
+
+/country/<id>  GET, PUT,DELETE
+
+
+
+    Client-side                                     Service
+(  header property )    		 (Annotation) 
+
+Accept 	(response)		@Produces
+Content-Type	(request) 	@Consumes
+
+
+
+The Accept header is used to inform the server by the client that which content type is understandable by the client expressed as MIME-types (Response type)
+
+The Content-Type http request header specifies the content type of the http request payload. 
+
+
+
+
+Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application.
+
+
+Idempotence : GET, PUT, DELETE
+non-idempotence : POST
+
+How to make Post as idempotence?
+By comparing some unique property
+
+
+Messenger Application Rest API
+-------------------------------------------
+
+Message -> Comment
+                -> Like
+                -> Share
+
+Resource :  message
+Sub-Resource : comment, like, share
+
+
+Endpoint:
+/message  GET, POST, DELETE
+/message/<messge-id>  GET, PUT, DELETE
+
+/message/<messag-id>/comment   GET,POST,DELETE
+/message/<messag-id>/comment /<comment-id>  GET,PUT,DELETE
+
+/message/<messag-id>/like  GET,POST,DELETE
+/message/<messag-id>/like/<like-id>  GET,PUT,DELETE
+
+
+/message/<messag-id>/share GET,POST,DELETE
+/message/<messag-id>/share/<share-id>  GET,PUT,DELETE
+
+
+Get all the comments of all messages
+/message/comment  X 
+/comment   (right approach) 
+
+
+
+
+Profile->  Message -> Comment
+                		-> Like
+               		-> Share
+
+Resource : Profile
+Sub-Resource : Message
+
+Resource: Message
+Sub-Resource : Comment, like, share
+
+endpoints:
+/profile  GET, POST, DELETE
+/proifle/<profile-id>  GET, PUT, DELETE
+/profile/<profile-id>/message GET, POST, DELETE
+/profile/<profile-id>/message/<message-id>  GET,PUT,DELETE
+/profile/<profile-id>/message/<message-id> /comment  GET,POST,DELETE
+/profile/<profile-id>/message/<message-id> /comment/<comment-id>   GET,POST,DELETE
+
+
+Get first 10 message of profile id 1001
+
+/profile/<profile-id>/message?start=1&size=10
+
+/profile/<profile-id>/message/<message-id> /comment?year=2021
+
+ 
+ORM : 
+Hibernate, Toplink
+
+JPA (provides standards for ORM)
+
+JAP ->  Hibernate / Toplink
+
+
+
+
+
+
+
+
+
+

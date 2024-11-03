@@ -1,0 +1,15 @@
+@PropertySources({
+    @PropertySource("classpath:foo.properties"),
+    @PropertySource("classpath:bar.properties")
+})
+
+
+Profile names can be passed as jvm parameter
+-Dspring.profiles.active=dev
+
+in application.properties
+spring.profiles.active=dev
+
+
+In test environment
+@ActiveProfiles("dev")

@@ -1,0 +1,64 @@
+integration testing
+============
+
+An integration test is supposed to test whether different modules are bounded correctly and if 
+they work as expected.
+
+The integration tests shall not utilize the actual production dependencies (e.g. database/network) 
+and they can mimic the certain behaviors.
+
+The application shall run in ApplicationContext and run tests in it.
+
+Spring boot provides @SpringBootTest annotation which starts the embedded server, creates a web 
+environment and then enables @Test methods to do integration testing. Use it’s webEnvironment 
+attribute for it.
+
+It also creates the ApplicationContext used in our tests.
+
+It is good to use h2 in-memory DB for mimicking the database. Though it is not mandatory and we can 
+use mockito to mock the database interactions.
+
+It is recommended to use test specific configurations using @TestConfiguration annotation.
+
+
+Spring boot provides lots of specialized annotations to test certain part of applications e.g. 
+@WebMvcTest to test web layer or @DataJpaTest to test persistence later.
+
+Use @SpringBootTest for tests that cover the whole Spring Boot application from incoming request 
+to database.
+
+
+
+@DirtiesContext
+===============
+
+@DirtiesContext is a Spring testing annotation. It indicates the associated test or class modifies the ApplicationContext. 
+It tells the testing framework to close and recreate the context for later tests.
+
+We can annotate a test method or an entire class. By setting the MethodMode or ClassMode, we can control when Spring 
+marks the context for closure.
+
+If we place @DirtiesContext on a class, the annotation applies to every method in the class with the given ClassMode.
+
+
+@ContextConfiguration
+=====================
+
+
+It loads an ApplicationContext for Spring integration test. @ContextConfiguration can load ApplicationContext using XML resource 
+or the JavaConfig annotated with @Configuration. The @ContextConfiguration annotation can also load a component annotated with
+@Component, @Service, @Repository etc. 
+
+
+@Sql annotation 
+===============
+
+It executes SQL scripts and SQL statements using datasource for testing. 
+
+
+@Mock creates a mock, and @InjectMocks creates an instance of the class and injects the mocks that are created with the 
+@Mock annotations into this instance.
+
+
+
+

@@ -1,0 +1,90 @@
+JoinPoint: The specific point at program execution.
+Point Cut: Expression to group one or more Join Points.
+Advice: Code to be executed at some JoinPoint
+Aspect: Module encapsulating Join Points and Advice.
+Weaving: The combination between Aspects and business code.
+
+
+4 types of advice:
+
+Before: Run the advice before the execution of the method.
+After: Run the advice after the execution of a method regardless of the outcome.
+After-returning: Run the advice after the execution of the method only after the successful completion of the method.
+After-throwing: Run the advice after execution of method only if the method exits throwing an exception.
+Around: Run the advice before and after advice method gets invoked.
+
+
+Try with the below expressions:
+ @Pointcut("execution(* get*(..))")
+ @Pointcut("execution(* getMsg(..))")
+ @Pointcut("execution(* demo.service.*.*(..))")
+ @Pointcut("execution(* demo.service.HelloService.*(..))")
+ 
+ 
+the execution of any public method:
+execution(public * *(..))
+
+
+the execution of any method with a name beginning with "set":
+execution(* set*(..))
+
+the execution of any method defined by the AccountService interface:
+execution(* com.xyz.service.AccountService.*(..))
+
+
+the execution of any method defined in the service package:
+
+execution(* com.xyz.service.*.*(..))
+the execution of any method defined in the service package or a sub-package:
+
+execution(* com.xyz.service..*.*(..))
+any join point (method execution only in Spring AOP) within the service package:
+
+within(com.xyz.service.*)
+any join point (method execution only in Spring AOP) within the service package or a sub-package:
+
+within(com.xyz.service..*)
+any join point (method execution only in Spring AOP) where the proxy implements the AccountService interface:
+
+this(com.xyz.service.AccountService)
+'this' is more commonly used in a binding form :- see the following section on advice for how to make the proxy object available in the advice body.
+
+any join point (method execution only in Spring AOP) where the target object implements the AccountService interface:
+
+target(com.xyz.service.AccountService)
+'target' is more commonly used in a binding form :- see the following section on advice for how to make the target object available in the advice body.
+
+any join point (method execution only in Spring AOP) which takes a single parameter, and where the argument passed at runtime is Serializable:
+
+args(java.io.Serializable)
+'args' is more commonly used in a binding form :- see the following section on advice for how to make the method arguments available in the advice body.
+
+Note that the pointcut given in this example is different to execution(* *(java.io.Serializable)): the args version matches if the argument passed at runtime is Serializable, the execution version matches if the method signature declares a single parameter of type Serializable.
+
+any join point (method execution only in Spring AOP) where the target object has an @Transactional annotation:
+
+@target(org.springframework.transaction.annotation.Transactional)
+'@target' can also be used in a binding form :- see the following section on advice for how to make the annotation object available in the advice body.
+
+any join point (method execution only in Spring AOP) where the declared type of the target object has an @Transactional annotation:
+
+@within(org.springframework.transaction.annotation.Transactional)
+'@within' can also be used in a binding form :- see the following section on advice for how to make the annotation object available in the advice body.
+
+any join point (method execution only in Spring AOP) where the executing method has an @Transactional annotation:
+
+@annotation(org.springframework.transaction.annotation.Transactional)
+'@annotation' can also be used in a binding form :- see the following section on advice for how to make the annotation object available in the advice body.
+
+any join point (method execution only in Spring AOP) which takes a single parameter, and where the runtime type of the argument passed has the @Classified annotation:
+
+@args(com.xyz.security.Classified)
+'@args' can also be used in a binding form :- see the following section on advice for how to make the annotation object(s) available in the advice body.
+
+any join point (method execution only in Spring AOP) on a Spring bean named 'tradeService':
+
+bean(tradeService)
+any join point (method execution only in Spring AOP) on Spring beans having names that match the wildcard expression '*Service':
+
+bean(*Service)
+

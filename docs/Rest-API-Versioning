@@ -1,0 +1,207 @@
+
+REST API Versioning
+===================
+
+Versioning helps to identify the changes.
+
+
+APIs only need to be up-versioned when a breaking change is made. Breaking changes include:
+
+> A change in the format of the response data for one or more calls
+> A change in the response type (i.e. changing an integer to a float)
+> Removing any part of the API.
+
+Breaking changes should always result in a change to the major version number for an API or content response type.
+
+Non-breaking changes, such as adding new endpoints or new response parameters, do not require a change to the major version number. 
+
+However, it can be helpful to track the minor versions of APIs when changes are made to support customers who may be receiving 
+cached versions of data or may be experiencing other API issues.
+
+The internal version of the API  uses the 1.2.3 format, so it looks as follows:
+
+MAJOR.MINOR.PATCH
+
+
+URI Versioning
+===============
+
+Basic approach to versioning is to create a completely different URI for the new service. 
+Example implementation is shown below.
+
+http://localhost:8080/v1/customer
+http://localhost:8080/v2/customer
+
+Ex:
+Facebook's Platform supports versioning so that app builders can roll out changes over time.
+
+version-4.0  :    https://graph.facebook.com/v4.0/{my-user-id}&access_token={access-token}
+unversioned : https://graph.facebook.com/{my-user-id}&access_token={access-token}
+[this call uses the oldest available version]
+
+This solution often uses URI routing to point to a specific version of the API.
+
+
+Request Parameter versioning
+============================
+
+Next approach to versioning is to use the request parameter to differentiate versions.
+
+Examples:
+
+http://localhost:8080/customer?version=1
+http://localhost:8080/customer?version=2
+
+
+(Custom) Headers versioning
+===========================
+
+The third approach to versioning is to use a Request Header to differentiate the versions.
+
+Examples:
+
+http://localhost:8080/customer     headers=[X-API-VERSION=1]
+http://localhost:8080/customer     headers=[X-API-VERSION=2]
+
+
+Media type versioning (“content negotiation” or “accept header”)
+================================================================
+
+The last versioning approach is to use the Accept Header in the request.
+
+Examples:
+
+http://localhost:8080/customer     headers[Accept=application/vnd.company.app-v1+json]
+http://localhost:8080/customer     headers[Accept=application/vnd.company.app-v2+json]
+
+
+
+Versioning via Redirect
+=======================
+
+This approach basically use HTTP code 301 to redirect the client to a different URI to make further request. 
+HTTP code 301 in the response indicates to the client that the URI has been permanently removed and the new 
+URI is in the response’s Location header. An example below
+GET https://api.abc.com/reading-inventory/quizzes
+
+Would get the following response
+
+HTTP status code 301
+Location=https://api.abc.com/reading-inventory/v2/quizzes
+
+
+====================================================================================================
+
+Cloud deployments:
+
+Blue-green deployment is a technique that reduces downtime and risk by running two identical 
+production environments called Blue and Green. At any time, only one of the environments is live,
+with the live environment serving all production traffic. For this example, Blue is currently 
+live and Green is idle.
+
+Canary deployment is a pattern for rolling out releases to a subset of users 
+or servers. The idea is to first deploy the change to a small subset of servers, test it, and then 
+roll the change out to the rest of the servers.
+
+
+
+
+A brief summary of the pros and cons of each approach:
+
+URI Versioning:
+===============
+Pros:
+It is explicit and easy to understand.
+Version information is clearly visible in the URL.
+Effective for public APIs where clarity is important.
+Cons:
+
+Can result in cluttered and less clean URIs.
+Changing the URI may break existing client applications.
+
+Request Parameter Versioning:
+=============================
+Pros:
+Keeps URIs cleaner and more focused on resource identification.
+Allows for a separation of version and resource.
+Cons:
+It can be seen as less explicit than URI versioning.
+Client applications may need to handle the version parameter.
+
+Custom Headers Versioning:
+==========================
+Pros:
+Keeps URIs clean and separates version information.
+Provides more control to the server and allows for cleaner URIs.
+Cons:
+It may require additional client logic to handle headers.
+Not as obvious as URI versioning for clients.
+
+Media Type Versioning (Content Negotiation or Accept Header):
+=============================================================
+Pros:
+Maintains clean and semantically meaningful URIs.
+Allows clients to request specific versions.
+Works well when serving multiple media types (e.g., JSON and XML).
+Cons:
+Requires more complex negotiation logic on the server.
+May be less obvious to clients.
+
+<><><><><><><>        <><><><><><><>        <><><><><><><>        <><><><><><><>        <><><><><><><>
+
+Some real-time use cases for API versioning, along with the appropriate versioning strategies:
+
+Social Media Feeds:
+===================
+
+Use Case: You have a social media platform with an API for retrieving user feeds.
+Versioning Strategy: Media Type Versioning
+Description: Users may want to access feeds in different formats (e.g., JSON, XML) and based on their preference, your API allows them to 
+specify the desired format using the "Accept" header.
+
+E-commerce Product Catalog:
+===========================
+
+Use Case: Your e-commerce platform provides an API for accessing product information.
+Versioning Strategy: URI Versioning
+Description: You release a new version of the product catalog API with updated features. To access the new version, clients can use the updated 
+version number in the URI (e.g., /v2/products).
+
+Location-Based Services:
+========================
+
+Use Case: Your location-based service provides an API for retrieving local weather information.
+Versioning Strategy: Request Parameter Versioning
+Description: Clients can specify the desired API version by including a "version" parameter in the request (e.g., /weather?version=2) to ensure backward 
+compatibility.
+
+IoT Device Management:
+======================
+
+Use Case: Your IoT platform offers an API for managing connected devices.
+Versioning Strategy: Custom Headers Versioning
+Description: API clients can include a custom HTTP header like "X-API-Version" to specify the version they want to use, ensuring seamless transitions 
+to newer API versions.
+
+Payment Gateway:
+================
+
+Use Case: Your payment gateway API processes transactions for e-commerce websites.
+Versioning Strategy: Media Type Versioning
+Description: Clients can request specific versions of response data based on their compatibility by specifying the API version in the "Accept" header, ensuring 
+smooth transitions to newer versions.
+
+Authentication Service:
+=======================
+
+Use Case: You provide an authentication service API for user authentication.
+Versioning Strategy: Custom Headers Versioning
+Description: Clients can include a custom header in their requests (e.g., "X-API-Version") to specify the version of the authentication API they want to use.
+
+Real-time Messaging:
+====================
+Use Case: Your real-time messaging platform offers an API for sending and receiving messages.
+Versioning Strategy: URI Versioning
+Description: New API versions can be represented in the URI, allowing clients to choose the version they want to interact with (e.g., /v2/messages).
+Each use case may have specific requirements and constraints that make a particular versioning strategy more suitable. It's important to consider 
+factors like client compatibility, readability, and ease of use when selecting the appropriate versioning approach for your real-time application.

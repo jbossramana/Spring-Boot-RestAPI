@@ -1,0 +1,75 @@
+The ViewResolver maps view names to actual views.
+
+And the Spring framework comes with quite a few view resolvers e.g. InternalResourceViewResolver, 
+BeanNameViewResolver, ThymeleafViewResolver  etc.,
+
+InternalResourceViewResolver:
+
+This ViewResolver allows us to set properties such as prefix or suffix to the view name to generate the 
+final view page URL
+
+@Bean
+public ViewResolver internalResourceViewResolver() {
+    InternalResourceViewResolver bean = new InternalResourceViewResolver();
+    bean.setViewClass(JstlView.class);
+    bean.setPrefix("/WEB-INF/view/");
+    bean.setSuffix(".jsp");
+    return bean;
+}
+
+
+BeanNameViewResolver:
+
+This is an implementation of ViewResovler that interprets a view name as a bean name in the current application 
+context. Each such View can be defined as a bean in XML or Java configurations.
+
+@Bean
+public BeanNameViewResolver beanNameViewResolver(){
+    return new BeanNameViewResolver();
+}
+
+
+Once the ViewResolver is defined we need to define beans of the type View so that it can be executed by 
+DispatcherServlet to render the view:
+
+@Bean
+public View sample() {
+    return new JstlView("/WEB-INF/view/sample.jsp");
+}
+
+Here is the corresponding handler method from the controller class:
+
+@GetMapping("/sample")
+public String showForm() {
+    return "sample";
+}
+
+
+ThymeleafViewResolver:
+
+Thymeleaf view resolver works by surrounding the view name with a prefix and suffix. The default values of prefix and suffix 
+are ‘classpath:/templates/’ and ‘.html’, respectively.
+
+Spring Boot also provides an option to change the default value of prefix and suffix by setting spring.thymeleaf.prefix and 
+spring.thymeleaf.suffix properties respectively.
+
+
+
+
+@InitBinder
+
+To customize request parameter data binding, we can use @InitBinder annotated methods within our controller.
+
+This customization is not limited to request parameters, it can be applied to template URI variables and backing/command objects.
+
+
+    @InitBinder("user")
+    public void customizeBinding (WebDataBinder binder) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormatter.setLenient(false);
+        binder.registerCustomEditor(Date.class, "dateOfBirth",new CustomDateEd itor(dateFormatter, true));
+    }
+    
+    
+
+

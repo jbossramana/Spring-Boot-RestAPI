@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 21
+Implementation-Title: lab7-spring-boot-ldap
+Implementation-Version: 0.1.0
+Created-By: Maven Integration for Eclipse
+

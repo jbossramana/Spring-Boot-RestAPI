@@ -1,0 +1,35 @@
+fixedRate, which specifies the interval between method invocations, measured from the start time of each invocation. 
+@Scheduled(fixedRate = 5000)
+
+
+fixedDelay, which specifies the interval between invocations measured from the completion of the task. 
+
+@Scheduled(fixedDelay = 1000, initialDelay = 3000)
+execute the task for every second after 3 seconds from the application startup
+
+
+@Scheduled(cron = "0 * 9 * * ?")
+This will execute the task every minute starting at 9:00 AM and ending at 9:59 AM, every day
+
+
+<minute> <hour> <day-of-month> <month> <day-of-week> <command>
+
+
+
+  
+  
+
+Note:
+cron expression consists of five fields: 
+ 
+At 12:00 p.m. (noon) every day:
+0 12 * * ?
+
+Every five minutes starting at 1 p.m. and ending at 1:55 p.m. and then starting at 6 p.m. and ending at 6:55 p.m., every day:
+0/5 13,18 * * ?
+
+Every minute starting at 1 p.m. and ending at 1:05 p.m., every day:
+0-5 13 * * ?
+
+At 1:15 p.m. and 1:45 p.m. every Tuesday in the month of June:
+15,45 13 ? 6 Tue
