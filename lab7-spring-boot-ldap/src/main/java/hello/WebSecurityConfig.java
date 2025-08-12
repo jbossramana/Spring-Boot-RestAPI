@@ -20,7 +20,7 @@ public class WebSecurityConfig {
         .anyRequest().authenticated()
       )
       .formLogin(Customizer.withDefaults());
-
+   // .httpBasic(Customizer.withDefaults());
     return http.build();
   }
 
