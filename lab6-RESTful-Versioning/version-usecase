@@ -114,7 +114,9 @@ GitHub again:
 Accept: application/vnd.github.v3+json
 
 
-Recommendation Summary                     Situation	Recommended Versioning
+Recommendation Summary  :                  
+
+Situation	                                        Recommended Versioning
 Public API with many consumers	                  URI versioning
 Internal service with stable consumers	          Request parameter
 Same URL with multiple representations	          Media type (Accept)
