@@ -1,0 +1,126 @@
+1. URI Versioning (/v1/resource)
+
+When to Use:
+
+You're building a public API or RESTful service.
+
+You want to make versioning explicit and easily cacheable.
+
+Clients are third-party consumers who need clarity in the API lifecycle.
+
+Pros:
+
+Simple and clear.
+
+Easy to document and test.
+
+Caches well.
+
+Cons:
+
+Breaks REST principles (URI should identify a resource, not a version).
+
+You may need to duplicate routing logic for different versions.
+
+Real-World Example:
+GitHub API
+https://api.github.com/v3/repos
+
+
+2. Request Parameter Versioning (/resource?version=1)
+When to Use:
+
+You want a lightweight, simple form of versioning.
+
+The version may be optional or configurable dynamically.
+
+Works well for internal services or when versioning isn't the primary concern.
+
+Pros:
+
+Simple to implement.
+
+Less invasive than URI versioning.
+
+Cons:
+
+Not ideal for caching (URLs look similar).
+
+Can get messy with many parameters.
+
+Real-World Example:
+
+Lightweight internal APIs.
+
+Feature flags in internal dev environments.
+
+
+3. Header Versioning (e.g., X-API-VERSION)
+  
+When to Use:
+
+You want clean URLs without version clutter.
+
+You control the clients (e.g., mobile app and backend both owned by you).
+
+Your system supports advanced header parsing.
+
+Pros:
+
+Keeps URI clean.
+
+Supports more RESTful design.
+
+Cons:
+
+Not easily visible (e.g., in browser or URL sharing).
+
+Harder to test with tools like curl or Postman.
+
+Not cache-friendly.
+
+Real-World Example:
+
+Microsoft Azure APIs or Amazon AWS services often support custom header-based versioning.
+
+4. Media Type Versioning (Accept Header / Content Negotiation)
+When to Use:
+
+You want fine-grained control over response formats.
+
+Your API supports multiple representations (e.g., JSON, XML, HAL, etc.).
+
+You want to follow a RESTful and HATEOAS-oriented approach.
+
+Pros:
+
+RESTful.
+
+Good for clients that rely on content negotiation.
+
+Useful for versioning content types and schemas.
+
+Cons:
+
+Complexity increases.
+
+Not intuitive for many developers.
+
+Difficult debugging and testing.
+
+Real-World Example:
+
+GitHub again:
+Accept: application/vnd.github.v3+json
+
+
+Recommendation Summary                     Situation	Recommended Versioning
+Public API with many consumers	                  URI versioning
+Internal service with stable consumers	          Request parameter
+Same URL with multiple representations	          Media type (Accept)
+Clean URL & full client control	                  Header versioning
+  
+  
+
+  
+  
