@@ -1,0 +1,28 @@
+Internationalization (i18n) is the process of designing and preparing your app to be usable in 
+different locales around the world. Localization is the process of building versions of your app 
+for different locales, including extracting text for translation into different languages, and 
+formatting data for particular locales.
+
+A locale identifies a region (such as a country) in which people speak a particular language or 
+language variant. The locale determines the formatting and parsing of dates, times, numbers, and 
+currencies as well as measurement units and the translated names for time zones, languages, 
+and countries.
+
+The LocaleResolver interface has implementations that determine the current locale based on the session, 
+cookies, the Accept-Language header, or a fixed value.
+
+SessionLocaleResolver is used to set a default locale with value US.
+
+CookieLocaleResolver: This locale resolver inspects a Cookie.
+
+English of US:
+=============
+
+Accept-Language: en-US
+
+French of Canada:
+=================
+
+Accept-Language: fr-CA
+
+

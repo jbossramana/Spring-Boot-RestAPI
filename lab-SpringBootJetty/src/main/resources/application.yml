@@ -1,0 +1,34 @@
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+   
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+        
+        
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+ 
+    
+      
+      
+info:
+   desc : actuator example
+   author : ramna
+   version : 1
+   
+   
+   
+
+   

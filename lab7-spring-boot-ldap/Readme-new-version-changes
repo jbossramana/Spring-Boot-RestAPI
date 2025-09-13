@@ -1,0 +1,36 @@
+
+
+	 @Bean
+	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	        http
+	            .authorizeHttpRequests((authz) -> authz
+	                .anyRequest().authenticated()
+	            )
+	            .httpBasic();
+	        return http.build();
+	    }
+	    
+	    
+
+ @Bean
+    public EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean() {
+        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean =
+            EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
+        contextSourceFactoryBean.setPort(0);
+        return contextSourceFactoryBean;
+    }
+
+    @Bean
+    AuthenticationManager ldapAuthenticationManager(
+            BaseLdapPathContextSource contextSource) {
+        LdapBindAuthenticationManagerFactory factory = 
+            new LdapBindAuthenticationManagerFactory(contextSource);
+        factory.setUserDnPatterns("uid={0},ou=people");
+        factory.setUserDetailsContextMapper(new PersonContextMapper());
+        return factory.createAuthenticationManager();
+    }
+    
+    
+    
+    
+    

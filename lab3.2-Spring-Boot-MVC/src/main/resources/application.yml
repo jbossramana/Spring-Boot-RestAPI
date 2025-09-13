@@ -1,0 +1,8 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+
+server:
+  port: 8081

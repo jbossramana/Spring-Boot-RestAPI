@@ -1,0 +1,15 @@
+We can filter out sensitive data like password or card number in the response.
+Support backward compatibility, by removing newly added properties.
+
+
+There are two types for flitering:
+Static Filtering
+Dynamic Filtering:
+
+
+
+"User”  contains fields like: id, email, fullName, password, secretKey
+
+When the recipient has an “admin” role, we should return the full object with the fields: id, email, fullName, password, secretKey.
+
+When a recipient has a “user” role, we should return an object partially with the fields: email, fullName.

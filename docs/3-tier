@@ -1,0 +1,65 @@
+@RestController
+public class SimpleController {
+
+	@Autowired
+	//@Qualifier("simple1")
+	ISimpleService  simpleService;
+	
+	@GetMapping
+	public String getMsg()
+	{
+		return "Simple Controller"+simpleService.getMsg();
+	}
+}
+
+
+
+public interface ISimpleService {
+
+	public String getMsg();
+}
+
+
+
+
+@Service
+public class SimpleService implements ISimpleService {
+
+	@Autowired
+	ISimpleDao  simpleDao;
+	
+	@Override
+	public String getMsg() {
+		// TODO Auto-generated method stub
+		return "..Simple Service"+simpleDao.getMsg();
+	}
+
+}
+
+
+
+
+
+public interface ISimpleDao {
+
+	public String getMsg();
+}
+
+
+
+
+
+@Repository
+public class SimpleDao implements ISimpleDao {
+
+	@Override
+	public String getMsg() {
+		// TODO Auto-generated method stub
+		return "..SimpleDao";
+	}
+
+}
+
+
+
+

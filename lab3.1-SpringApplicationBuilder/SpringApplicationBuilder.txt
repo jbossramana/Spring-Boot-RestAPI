@@ -1,0 +1,24 @@
+SpringApplicationBuilder
+========================
+
+SpringApplicationBuilder is a builder for SpringApplication and ApplicationContext instances
+with convenient fluent API and context hierarchy support.
+
+new SpringApplicationBuilder(Application.class)
+                .bannerMode(Banner.Mode.OFF)
+                .logStartupInfo(false)
+                .build()
+                .run(args);
+
+
+
+
+new SpringApplicationBuilder().parent(ParentConfig.class)
+            .web(WebApplicationType.NONE)
+            .child(Ctx1Config.class)
+            .web(WebApplicationType.SERVLET)
+            .sibling(Ctx2Config.class)
+            .web(WebApplicationType.SERVLET)
+            .run(args);
+
+

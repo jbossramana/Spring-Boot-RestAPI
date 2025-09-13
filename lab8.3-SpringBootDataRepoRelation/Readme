@@ -1,0 +1,84 @@
+
+1. Add a Library instance 
+curl -i -X POST -H "Content-Type:application/json"  -d "{\"name\":\"My Library2\"}" http://localhost:8080/libraries
+
+2. Create an Address instance:
+
+curl -i -X POST -H "Content-Type:application/json" -d "{\"location\":\"Main Street nr 5\"}" http://localhost:8080/addresses
+  
+
+One-to-One Relationship Creating the Associations
+=================================
+
+
+Library entity is the owner of the association, we'll add an address to a library:
+
+curl -i -X PUT -d "http://localhost:8080/addresses/1"  -H "Content-Type:text/uri-list" http://localhost:8080/libraries/1/libraryAddress
+
+If successful, it'll return status 204. To verify this, we can check the library association resource of the address:
+
+curl -i -X GET http://localhost:8080/addresses/1/library
+
+To remove an association, we can call the endpoint with the DELETE method, making sure to use the association resource of the 
+owner of the relationship:
+
+curl -i -X DELETE http://localhost:8080/libraries/1/libraryAddress
+
+
+One-to-Many Relationship: The Association Resources
+=================================
+
+1. In order to add a book to a library, we need to create a Book instance first by using the /books collection resource:
+
+curl -i -X POST -d "{\"title\":\"Book1\"}"   -H "Content-Type:application/json" http://localhost:8080/books
+
+2. Now let's associate the book with the library
+
+curl -i -X PUT -H "Content-Type:text/uri-list" -d "http://localhost:8080/libraries/1" http://localhost:8080/books/1/library
+
+3. To remove an association, we can use the DELETE method on the association resource:
+
+curl -i -X DELETE http://localhost:8080/books/1/library
+
+
+Many-to-Many Relationship : The Association Resources
+==================================
+
+1. create an Author instance by sending a POST request to the /authors collection resource:
+
+curl -i -X POST -H "Content-Type:application/json"   -d "{\"name\":\"author1\"}" http://localhost:8080/authors
+
+2. add a second Book record to our database:
+
+curl -i -X POST -H "Content-Type:application/json"  -d "{\"title\":\"Book 2\"}" http://localhost:8080/books
+
+
+3. Now we can create an association between the two Book records and the Author record using the endpoint authors/1/books 
+with the PUT method, which supports a media type of text/uri-list and can receive more than one URI.
+
+To send multiple URIs, we have to separate them by a line break:
+
+curl -i -X PUT -H "Content-Type:text/uri-list"    --data-binary @uris.txt http://localhost:8080/authors/1/books
+  
+
+The uris.txt file contains the URIs of the books, each on a separate line:
+
+http://localhost:8080/books/1
+http://localhost:8080/books/2
+
+4. To verify both books are associated with the author, we can send a GET request to the association endpoint:
+
+curl -i -X GET http://localhost:8080/authors/1/books
+
+ Spring Data REST : Fundamentals
+ =====================
+
+The core functionality of Spring Data REST is to export resources for Spring Data repositories. Thus, the core artifact to look at 
+and potentially customize the way the exporting works is the repository interface. Consider the following repository interface:
+
+public interface OrderRepository extends CrudRepository<Order, Long> { }
+
+For this repository, Spring Data REST exposes a collection resource at /orders. The path is derived from the uncapitalized, pluralized, 
+simple class name of the domain class being managed. It also exposes an item resource for each of the items managed by the repository 
+under the URI template /orders/{id}.
+

@@ -1,0 +1,17 @@
+Aspect : It is a class with one or more advices
+
+Advice : It contains crosscutting concerns
+|_ Before Advice  (security)
+|_ After Return Advice (after successful execution, send notifications)
+|_ Around Advice (transaction, profyling) 
+|_ Throws Advice (exception handling)
+
+Target : Real Object  (AccountBean, PaymentBean etc.,)
+
+Joinpoint : any method in the Target
+
+Pointcut : it is an AOP Query language, where aspects are applied to the joinpoint
+
+Advisor : Pointcut and Advice
+
+Proxy : It is a placeholder between the client and the target (Target + Advisor)

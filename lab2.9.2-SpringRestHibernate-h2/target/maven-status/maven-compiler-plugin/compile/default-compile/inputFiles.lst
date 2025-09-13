@@ -1,0 +1,6 @@
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\model\Task.java
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\service\TaskService.java
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\config\WebConfig.java
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\repository\TaskRepository.java
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\controller\TaskRestController.java
+D:\springboot\labs\lab2.9.2-SpringRestHibernate[h2]\src\main\java\com\example\taskapp\config\AppConfig.java

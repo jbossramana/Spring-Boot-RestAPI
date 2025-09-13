@@ -1,0 +1,23 @@
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+
+@NotNull(message = "Name cannot be null")
+@NotEmpty(message = "Name cannot be empty")
+@Size(min = 3, message = "Name should have at least 3 characters")
+String name;
+
+@NotNull(message = "Location cannot be null")
+@NotEmpty(message = "Location cannot be empty")
+String location;
+
+
+
+@Size(max = 50, message = "Name should be less than or equal to 50 characters")
+String name;
+
+@Size(max = 100, message = "Location should be less than or equal to 100 characters")
+String location;
+
+
+@Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Name should contain only letters and spaces")
+String name;

@@ -1,0 +1,15 @@
+@RepositoryRestResource(path = "employees", collectionResourceRel = "employees")
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Procedure("get_employees_by_department")
+    List<Employee> getEmployeesByDepartment(@Param("dept_name") String department);
+
+    @Query("SELECT e FROM Employee e WHERE e.department = :deptName")
+    List<Employee> findEmployeesByDepartment(@Param("deptName") String deptName);
+}
+
+
+Spring Data REST will expose them at URLs like:
+
+/employees/search/findEmployeesByDepartment
+/employees/search/getEmployeeById

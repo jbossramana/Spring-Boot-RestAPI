@@ -1,0 +1,7 @@
+POST   http://localhost:8080/taskrestapp/api/tasks
+       Content-Type: application/json
+       Body: { "description": "Test REST", "completed": false }
+
+GET    http://localhost:8080/taskrestapp/api/tasks
+
+DELETE http://localhost:8080/taskrestapp/api/tasks/1

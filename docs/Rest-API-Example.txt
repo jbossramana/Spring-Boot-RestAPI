@@ -1,0 +1,152 @@
+SOAP  -> Message Exchange Protocol  -> SOAP Message -> Operations (insert,delete,update,retrieve)
+------
+HTTP  ->  Application Protocol -> HttpRequest & HttpResponse Message ( Methods : GET,POST,PUT,DELETE, HEAD, OPTIONS, PATCH etc.,)
+------
+TCP/IP -> Transport Protocol
+
+
+Multipurpose Internet Mail Extensions (MIME) -> Media-types -> application/json, applicaion/xml 
+
+
+REST   -> Architectural Design Pattern (not a protocol)
+-----
+HTTP
+------
+TCP/IP
+
+* REST is a pattern, it suggest to use all HTTP methods and MIME types to develop the API.
+
+
+
+REST API
+-----------
+
+Usecase : User Registration System
+
+Resource Name : user 
+
+CRUD endpoint:
+
+Create -> POST
+Read -> GET
+Update -> PUT /PATCH(partial update)
+Delete -> DELETE
+
+
+/user     GET, POST, DELETE
+
+/user/<user-id>  -> GET, PUT, DELETE
+
+
+Retreive the user with id=10
+/user/10  GET (correct)
+/user?userid=10  GET  (wrong)
+
+
+Retreive all users:
+
+/user  GET
+
+Retreive all users registered in the year 2020:
+
+/user/2020   GET   (wrong)
+
+Use Custom Query -> request/application/query/matrix parameter
+
+/user/search?year=2020  GET (correct)
+
+
+Get first 10 users registered in the year 2020
+/yser?year=2022&start=1&size=10
+
+
+user -> order
+
+/user
+/user/<user-id>
+
+/user/<user-id>/order  GET
+/user/<user-id>/order/<order-id>  GET
+
+
+
+Messenger Application
+-------------------------
+
+Profile -> Message -> comment
+                                 -> share
+                                 -> like
+
+
+
+Main Resource :  message
+Sub-Resource : comment, share, like
+
+Endpoints:
+
+/message   GET, POST, DELETE
+/message/<message-id> GET, PUT, DELETE
+
+/message/<message-id>/comment   GET, POST, DELETE
+/message/<message-id>/comment/<comment-id>  GET, PUT, DELETE
+
+/message/<message-id>/share GET, POST, DELETE
+/message/<message-id>share/<share-id> GET, PUT, DELETE
+
+/message/<message-id>/like GET, POST, DELETE
+/message/<message-id>/like/<like-id> GET, PUT, DELETE
+
+
+get comments for all messages:
+
+/message/comment
+/comment  (prefer)
+
+
+
+
+
+Using the @RestController Annotation
+
+Spring 4.0 introduced @RestController, a specialized version of the controller which is a convenience annotation that does nothing more than add the @Controller and @ResponseBody annotations. 
+
+By annotating the controller class with @RestController annotation, we no longer need to add @ResponseBody to all the request mapping methods. 
+
+The @ResponseBody annotation is active by default.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

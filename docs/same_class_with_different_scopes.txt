@@ -1,0 +1,24 @@
+<bean id="account"  class="demo.Account" scope="singleton">
+<property name="amt">
+<value>5000</value>
+</property>
+
+<property name="type">
+<value>Saving</value>
+</property>  </bean>
+
+
+
+<bean id="account1"  class="demo.Account" scope="prototype">
+<property name="amt">
+<value>5000</value>
+</property>
+
+<property name="type">
+<value>Saving</value>
+</property>   </bean>
+
+
+<bean id="account2"  class="demo.Account" scope="singleton"/>
+	
+<bean id="account3"  class="demo.Account" scope="prototype"/>

@@ -1,0 +1,16 @@
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          https://www.springframework.org/schema/webflow/spring-webflow-3.0.xsd">
+
+    <view-state id="registerForm" model="user">
+        <transition on="next" to="confirm" />
+    </view-state>
+
+    <view-state id="confirm" model="user">
+        <transition on="submit" to="finish" />
+        <transition on="back" to="registerForm" />
+    </view-state>
+
+    <end-state id="finish" />
+</flow>

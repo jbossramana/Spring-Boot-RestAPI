@@ -1,0 +1,78 @@
+1.  POST -> localhost:8080/customer
+{ 
+  
+    "telephone":"001-555-1234",
+    "favorites":["Milk","Fruits"],
+    "communicationPreferences": {"post":true, "email":true}
+}
+
+
+2. GET -> localhost:8080/customer/1
+
+
+3. PATCH ->  localhost:8080/customer/1
+
+{
+ "telephone":"001-555-2222"
+}
+
+ The HTTP PATCH Method and the JSON Patch Format
+ ================================
+ 
+ The HTTP PATCH method offers a nice way to apply partial updates to resources. 
+ As a result, clients need to  send only the differences in their requests.
+
+EX:  HTTP PATCH request:
+
+PATCH /customers/1234 HTTP/1.1
+Host: www.example.com
+Content-Type: application/example
+If-Match: "e0023aa4e"
+Content-Length: 100
+
+[description of changes]
+
+
+PATCH ->  localhost:8080/customer/adv/1
+
+1.JSON patch operation to update the customer's telephone number:
+
+[
+{
+    "op":"replace",
+    "path":"/telephone",
+    "value":"001-555-5678"
+}
+]
+
+2. add “Bread” to the customer's favorites list at index 0:
+
+[
+{
+    "op":"add",
+    "path":"/favorites/0",
+    "value":"Bread"
+}
+]
+
+3. remove the communcationPreferences for our customer:
+[
+{
+    "op":"remove",
+    "path":"/communicationPreferences"
+}
+]
+
+4. move “Bread” from the top of the customer's favorites list to the bottom of the list:
+[
+{
+    "op":"move",
+    "from":"/favorites/0",
+    "path":"/favorites/-"
+}
+]
+
+
+==================================
+Ref: https://www.baeldung.com/spring-rest-json-patch
+==================================

@@ -1,0 +1,7 @@
+1. Download the Lombok jar from: https://projectlombok.org/download
+
+2. java -jar lombok-1.18.30.jar
+
+3. It will detect your STS/Eclipse installation (if not, browse manually).
+
+4. Click Install/Update.

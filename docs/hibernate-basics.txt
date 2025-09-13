@@ -1,0 +1,71 @@
+SessionFactory   sessionFactory = new Configuration().configure().buildSessionFactory();
+Session session = sessionFactory.openSession();
+
+Account acc = new Account();     // Transient object
+acc.setAmt(5000);
+
+session.save(acc);   // persistent object, dirty=true
+session.flush();   // sync between L1 cache and db for dirty data   -> insert statement executed
+session.close();
+
+acc.setAmt(7000);   // detached object
+
+Session session2 = sessionFactory.openSession();
+session.update(acc);  // persitent object, directy=true
+session.flush();  // sync between L1 cache and db for dirty data    -> update statement executed
+
+session.delete(acc);  
+session.flush();  //L1 cache will not have reference to acc , now acc is transient object   -> delete statement executed
+
+
+Retreive the object
+============
+
+Session session = sessionFactory.openSession();
+
+Account acc10 = session.load(Account.class, 10)    // L1 cache has reference to acc10 ,  acc10 is a persistent object
+....
+
+.....
+Account acc10a =  session.load(Account.class, 10)  // object is returned from the L1 cache
+
+if (acc10 == acc10a)
+ retrun true;  // true is retruned
+else
+ return false;
+ 
+
+
+ORM:
+Class         ->         Table
+Account              Accounts
+
+SessionFactory  ->   L2  Cache  (Application-level cache)
+Session -> L1 Cache  (Session-scope)  &  on-demand jdbc connection
+
+
+Data Layer:
+
+-> jdbc
+
+-> hibernate -> jdbc  (non standard) 
+
+-> jpa -> hibernate/toplink/?  ->  jdbc  (java standards)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

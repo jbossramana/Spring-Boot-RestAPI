@@ -1,0 +1,115 @@
+
+REST API Versioning
+-------------------
+
+Versioning helps to identify the changes.
+
+
+APIs only need to be up-versioned when a breaking change is made. Breaking changes include:
+
+> A change in the format of the response data for one or more calls
+> A change in the response type (i.e. changing an integer to a float)
+> Removing any part of the API.
+
+Breaking changes should always result in a change to the major version number for an API or content response type.
+
+Non-breaking changes, such as adding new endpoints or new response parameters, do not require a change to the major version number. 
+
+However, it can be helpful to track the minor versions of APIs when changes are made to support customers who may be receiving 
+cached versions of data or may be experiencing other API issues.
+
+The internal version of the API  uses the 1.2.3 format, so it looks as follows:
+
+MAJOR.MINOR.PATCH
+
+
+URI Versioning
+=========
+
+Basic approach to versioning is to create a completely different URI for the new service. 
+Example implementation is shown below.
+
+http://localhost:8080/v1/customer
+http://localhost:8080/v2/customer
+
+Ex:
+Facebook's Platform supports versioning so that app builders can roll out changes over time.
+
+version-4.0  :    https://graph.facebook.com/v4.0/{my-user-id}&access_token={access-token}
+unversioned : https://graph.facebook.com/{my-user-id}&access_token={access-token}
+[this call uses the oldest available version]
+
+This solution often uses URI routing to point to a specific version of the API.
+
+Use Case: Ideal when backward compatibility isn't a top concern or when breaking changes are 
+frequent and expected.
+
+Request Parameter versioning
+===================
+
+Next approach to versioning is to use the request parameter to differentiate versions.
+
+Examples:
+
+http://localhost:8080/customer?version=1
+http://localhost:8080/customer?version=2
+
+Use Case: Best for simpler use cases where developers want a versioning mechanism but don't 
+want to change the URI structure.
+
+(Custom) Headers versioning
+===================
+
+The third approach to versioning is to use a Request Header to differentiate the versions.
+
+Examples:
+
+http://localhost:8080/customer     headers=[X-API-VERSION=1]
+http://localhost:8080/customer     headers=[X-API-VERSION=2]
+
+Use Case: This is useful for APIs where the client does not want to alter the URI but needs to 
+differentiate between versions. This approach can also help keep the URL cleaner.
+
+
+Media type versioning (“content negotiation” or “accept header”)
+=========================================
+
+The last versioning approach is to use the Accept Header in the request.
+
+Examples:
+
+http://localhost:8080/customer     headers[Accept=application/vnd.company.app-v1+json]
+http://localhost:8080/customer     headers[Accept=application/vnd.company.app-v2+json]
+
+Use Case: Ideal for APIs that serve different versions of the same resource but want to keep the URL 
+uniform and leverage the full flexibility of HTTP headers.
+
+
+Versioning via Redirect
+===============
+This approach basically use HTTP code 301 to redirect the client to a different URI to make further request. 
+HTTP code 301 in the response indicates to the client that the URI has been permanently removed and the new 
+URI is in the response’s Location header. An example below
+GET https://api.abc.com/reading-inventory/quizzes
+
+Would get the following response
+
+HTTP status code 301
+Location=https://api.abc.com/reading-inventory/v2/quizzes
+
+Use Case: Useful when you want to guide clients to newer versions of the API without requiring them to 
+update their request URLs manually. However, excessive redirects can add overhead to the 
+request/response cycle.
+
+
+====================================================================================================
+Cloud deployments:
+
+Blue-green deployment is a technique that reduces downtime and risk by running two identical 
+production environments called Blue and Green. At any time, only one of the environments is live,
+with the live environment serving all production traffic. For this example, Blue is currently 
+live and Green is idle.
+
+Canary deployment is a pattern for rolling out releases to a subset of users 
+or servers. The idea is to first deploy the change to a small subset of servers, test it, and then 
+roll the change out to the rest of the servers.

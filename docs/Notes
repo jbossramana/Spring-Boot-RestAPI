@@ -1,0 +1,705 @@
+OOAD - OCP
+Open Close Principle
+Close for modification, Open for Extension.
+
+Wrapper/Decorator
+
+
+Architectural Patterns:
+MVC, SOA, Microservices, REST
+
+Spring MVC
+|_ MVC Pattern
+    |_ GOF  & JavaEE Patterns
+
+
+Not a POJO
+----------------
+Class AccoutBean  implements  InitializingBean(Spring)
+{
+
+
+}
+
+POJO
+
+Class AccountBean implements IAccountBean
+{
+}
+
+
+
+
+
+Business Tier
+
+Class AccountService  implements IAccountService
+
+{
+
+@Inject/ @Autowired
+ IAccountDao  accoutDao;
+
+// IAccountDao  accoutDao = new AccountHibernatempl  ();
+
+accoudDao.deposit();
+accountDao.withdraw();
+
+}
+
+Data Tier
+
+Class AccountJDBCImpl  implements IAccountDao
+{
+
+.... jdbc code
+}
+
+
+
+Class AccountHibernatempl  implements IAccountDao
+{
+
+.... jdbc code
+}
+
+
+
+Spring Core Container : IOC, DI & AOP
+
+IOC - Inversion of control
+DI - Dependency Injection
+AOP - Aspect Oriented Programming
+
+Cotainer  -> Is a pre-written program, which provides the below features:
+Lifecycle management
+Declarative Services (Logging, Security, Profyling, Caching, Exception handling etc.,)
+
+
+
+Lifecycle management
+|_ BML, CML
+
+Bean-Managed Lifecycle:
+
+Account  account = new Account();
+account.setAmount(10000);
+...
+...
+account = null;
+
+Container-Managed Lifecycle:
+
+Account account =  spring.getBean(account);
+
+Spring -> XML & Annotations
+
+Spring Bean Scope: Singleton, Prototype, Request, Session, Application(portlet), Custom Scope
+
+
+
+String s1 = new String("ramana");
+String s2 = new String("ramana");
+
+if (s1==s2)   // true
+
+In java, two objects are equal:
+by reference  (==)
+by value  (.equals)
+
+
+Spring life cycle:
+1. instantiate
+2. setter/constructor injection (DI)
+
+default scope : singleton
+Note: singleton beans are eagerly created, non-singleton beans lazily created
+
+
+@Autowired
+|_ Injecting one spring bean into another spring bean
+
+
+
+
+Application components -> Spring Steriotype Annotations:
+@Controller / @RestController - Presentation Tier (web)
+@Service  - Business Tier
+@Repository - Data Tier
+@Component  - Generic purpose (AOP)
+
+
+@Configuration // scans for beans annotated with @Bean
+@ComponentScan("demo") // scans  for steriotype annotations
+
+
+Configuration Beans are annotated with @Bean
+EX: RestTemplate, JDBCTemplate, Docket, ViewResolver, Datasource etc.,
+
+
+JSR 250 - Commons Annotations For Java 
+@PostConstruct
+@PreDestroy
+
+
+Bean Post Processor:
+
+These are special beans registered to ApplicationContext (BeanFactory) for providing global initailization.
+Bean Post Processor are registered to the factory, as part of life cycle every bean must go through this.
+
+There are in-built post processor and custom post processor(global initialization, validation, formatting, masking)
+
+in-built post processors:
+commonannotationbeanpostprocessor
+autowireannotationbeanpostprocessor
+defaultadvisorautoproxycreator
+
+Note : prototype  beans will not participate in the bean destroy lifecycle (@PreDestroy never called)
+
+
+AOP Terminology:
+1. Aspect : It is a class with one or more advices
+2. Advice : Contains cross-cutting code (security, trasaction etc.,)
+    |_ Type of Advices
+           |_ @Before, @After, @AfterReturn, @Around, @Throws / @ExceptionHandler
+
+    Before Advice : security
+    Around : transaction, logging, profyling
+    Throws : exception handling
+
+3. Target :  Real Object (AccountBean, PaymentBean)
+
+4. Proxy : is a placeholder between the caller and the real object
+
+5. Pointcut : AOP query language
+
+6. joinpoint : execution point in the program (field, constructor, method). Spring supports method-level jointpoint.
+
+
+
+
+
+Spring provides, declarative services:
+Transaction Management (@Transactional )
+Security Service  (@Secured("ROLE_VIEWER"))
+DataAccessException for DAO Components
+
+custom advices : logging, profyling
+
+Note : Spring will create all the beans annotated with @Transactional as proxy object, by adding Transactional Advice
+(Declartive), we need use @EnableTransactionManagement annotation.
+
+
+BeanPostProciess is part of the bean lifecycle, used for global initialization.
+EX: initialzing values, validating data, formatting the data
+
+
+Around advice is executed on proxy bean's method at run-time
+Ex: security, transation, logging etc.,
+
+Mysql:
+mysql -uroot -proot
+create database demo
+use demo
+
+
+Spring is known as Template Framework.
+JDBCTemplate
+KafkaTemplate
+RestTemplate
+* Template simplifies the connection managed for the resources
+
+
+Spring with JDBC, provides JDBCTemplate
+(GOF - Class scope -> Behavioral patterns -> Template)
+
+
+
+
+Fro Data Layer, Spring provides :
+Template and DAO support classes
+
+-> JdbcTemplate, NamedParameterJdbcTemplate
+    JdbcDaoSupport, NamedParameterJdbcDaoSupport
+
+-> JpaTemplate, JpaDaoSupport
+
+
+
+Data Layer:
+1. JDBC (sql queries)
+
+ORM (Object-Relation Mapping)
+
+2. Hibernate -> JDBC
+|_ Session
+
+3. JPA -> Hibernate/Toplink /Open JPA -> JDBC
+|_ EntityMaanger
+
+
+* Hibernate is a framework
+* JPA is a specification for ORM
+
+
+Account acc = new Account()
+acc.setType("saving");
+
+session.save(acc);
+session.update(acc);
+session.delete(acc);
+
+Account acc10 = session.load(Account, 10L);    // select * from Account where id=10 -> Resultset -> Rowmapper -> Account
+
+
+
+EntityManagerFactory(JPA) / SessionFactory(Hibernate) : 
+1. Pool of entitymanager or session
+2. L2 Cache (application-level cache -> pref Read Only)
+
+EntityManager / Session:
+1. On demand jdbc connector
+2. It accepts objects
+3. It is L1 Cache  (session-level cache -> read/write)
+
+
+EntityManager entitymanager = new EntityManager()
+// @Autowired  EntityManager entitymanager;
+
+
+Account acc10 = entitymanager.get(Account,10);
+
+
+
+Association / Relationship:
+|_ Uni-Directional
+|_ Bi-Directional
+
+
+          *..1        1..*
+Order ---------> OrderItem
+
+@Entity
+public class Order {
+ 
+long id;
+String details;
+
+    @OneToMany
+    private List<OrderItem> items = new ArrayList<OrderItem>();
+ 
+    …
+}
+
+
+@Entity
+public class OrderItem {
+ 
+long id;
+String itemDetails;
+
+   @ManyToOne
+    private Order order;
+}
+
+
+
+Order order = new Order();
+order.setDesc(..);
+
+OrderItem orderItem = new OrderItem();
+orderItem.setDesc(...);
+
+order.setOrderItem(orderItem);
+
+em.persist(order);
+
+
+
+Order order10  = em.find(Order, 10L);
+
+order10.getOrderItem();
+
+
+
+
+Transaction:
+It is a unit of work, either commit or rollaback. It follows ACID properties.
+
+Two types of transactions:
+Local Tx : Transaction using only one resource i.e. database, caching, message broker
+Global/XA TX: : Transaction using more than one resource
+
+
+Transaction can be  bean-managed or container managed.
+
+bean-managed:
+
+begin trasaction
+....
+commit/rollback 
+
+Container-managed Transactions  : 
+use @Transactional annotation at class-level or method-level
+
+Spring provides 7 transaction attributes:
+
+REQUIRED  (default)
+REQUIRES_NEW
+MANDATORY
+SUPPORTS
+NOT_SUPPORTED
+NEVER
+NESTED
+
+
+ @Transactional(propagation = Propagation.REQUIRED)
+
+				 Required                  Required
+MainApplication -> CustomerService -> CustomerDAO
+
+
+Required : Participante in any existing transaction, or start a new transaction.
+
+Requires_New:
+Always starts a new transaction, any existing transaction is paused.
+
+Mandatory:
+Requires an existing transaction, otherwise throws an exception.
+
+
+
+
+In Tomcat, we can deploy more than one application.
+
+Context-root is used to uniquely identify the appliations deployed in Tomcat.
+/  - ROOT application  (default context-path)
+/sample-web  -  sample-web application
+
+url-pattern is used to uniquly identify the resource within an application
+/hello  -  HelloServlet
+/login.jsp  - login.jsp
+index.html, welcome.html -  default url-pattern
+
+
+
+
+Spring MVC : this module is used for developing web application and web services.
+
+@Controller -> web application (it returns html as response)
+@RestController -> web service (REST) - it returns data(json/xml) as response
+
+
+
+
+SOAP    (message exchnage protocol)
+--------
+HTTP     (applicaton protocol) -htp methods GET,POST,PUT,DELETE, MIME : application/xml, application/json
+--------
+TCP/IP   (Transport protocol)
+
+* Simple Object Access Protocol
+
+SOAP - It has a Message Strcuture 
+              It uses HTTP POST method for developing the API (SOAP will use its own methods on top POST)
+
+
+
+REST (not a protocol, it is a design pattern/concept)
+--------
+HTTP     (applicaton protocol) -htp methods GET,POST,PUT,DELETE, MIME : application/xml, application/json
+--------
+TCP/IP   (Transport protocol)
+
+REST : Representational State Transfer
+
+
+
+
+REST API
+--------------
+GET - Retrieve
+POST - insert
+PUT - update
+DELETE - delete
+
+
+User Registration Service [CRUD operations]
+
+Resource : user
+
+Endpoint / url/ uri :
+
+/user  - GET,POST,DELETE
+/user/<user-id>  - GET, PUT, DELETE
+
+
+
+Retrieve the content of all users          
+/user  - GET
+
+insert a new user
+/user - POST
+
+delete all users
+/user- DELETE
+
+
+Retrieve the content of user id 10
+/user/10  - GET
+/user?user-id=10 X
+
+
+It will update the content of user 10
+/user/10 - PUT
+
+it will delete the content of the user 10
+/user/10 - DELETE
+
+
+custom queries: (user query/application/request parameter or matrix paremeter)
+
+- Retrieve all the users, registered in the year 2021
+
+/user/2021  - GET   X
+/user?year=2021   GET
+
+- Retrieve the content of first 10 users (Pagination)
+
+/user?start=1&size=10    -   GET
+
+- Retrieve first 10  users, registered in the year 2021
+
+/user?year=2021&start=1&size=10
+
+
+
+Service Provider (Order Service)
+----------------------
+
+Resource :  Order
+
+/order
+/order/<id>
+
+
+
+Service Consumer (Customer Service)
+-------------------------
+
+/order  GET
+/order/1010  GET
+/order  POST
+/order/1010 PUT
+/order/1010 DELETE
+
+
+
+Messenger Application API
+------------------------------------
+
+Message ->  Comment
+               ->  Like
+               ->  Share
+
+
+Resource : message
+Sub-Resource : comment, like, share
+
+/message - GET, POST, DELETE
+/message/<message-id> - GET, PUT, DELETE
+
+/message/<message-id>/comment   GET, POST, DELETE
+/message/<message-id>/comment /<comment-id>  GET, PUT, DELETE
+
+
+/message/<message-id>/share GET, POST, DELETE
+/message/<message-id>/share/<share-id>  GET, PUT, DELETE
+
+
+
+/message/<message-id>/like   GET, POST, DELETE
+/message/<message-id>/like/<like-id>  GET, PUT, DELETE
+
+
+get comments of all messages:
+/message/comment   (or)  /comment
+
+
+
+
+
+Profile -> Message ->  Comment
+                               ->  Like
+                               ->  Share
+
+
+Resource : profile
+Sub-Resource for Profile : message
+Sub-Resource for Message : share,comment,like
+
+
+/profile   GET,POST,DELETE
+/profile/<profile-id>  GET,PUT,DELETE
+
+/profile/<profile-id>/message GET,POST,DELETE
+/profile/<profile-id>/message/<message-id>  GET,PUT,DELETE
+
+
+
+/profile/<profile-id>/message/<message-id>/comment   GET,POST,DELETE
+
+/profile/<profile-id>/message/<message-id>/comment/<comment-id> GET,PUT,DELETE
+
+
+we rarely use the below requriement:
+Get all messages of all profiles:
+/profile/message  (or)  /message
+
+Get all comments of all messages
+/profile/message/comment  (or)  /comment
+
+
+To develop restservices in java:
+
+1. Java standards(javaEE)  for developming web services:
+Specification:
+JAX-WS 2.0 (JSR 224)  : SOAP webservice
+JAX-RS 2.1 (JSR 370) :  REST webservice
+
+Implementor for JAX-WS/JAX-RS:
+apache cxf
+Eclipse Jersey
+
+JAX-RS annotations : @GET, @PUT, @DELETE, @POST
+
+Note: JSR stands for Java Specification Request
+
+
+
+To create jersey project using mavan:
+
+Create a Maven Project
+
+Add Archetype for jersey
+     Group Id: org.glassfish.jersey.archetypes
+     Artifact Id: jersey-quickstart-webapp
+     Version : 2.16
+     Repository URL :   not required
+
+
+
+2. Spring MVC is used to develop the webservices (non-standard)
+
+Spring Rest annotations : @GetMapping, @PutMapping, @PostMapping, @DeleteMapping
+
+
+3. Google Guice is a Dependency Injection Framework (similar to Spring), uses JAX-RS for developing Restful Services
+4. JavaEE - EJB - uses JAX-RS for developing Restful Services
+
+
+ Grizzly supports JAX-WS web services execution via HTTP server framework. 
+
+mvn archetype:generate -DarchetypeArtifactId=jersey-quickstart-grizzly2 ^
+-DarchetypeGroupId=org.glassfish.jersey.archetypes -DinteractiveMode=false ^
+-DgroupId=com.example -DartifactId=simple-service -Dpackage=com.example ^
+-DarchetypeVersion=2.36
+
+Http headers:
+Accept  : The Accept header is used to inform the server by the client that which content type is understandable by the client expressed as MIME-types. (Response Type)
+Content-Type : The content-type header indicates the type of media/file in communication between the HTTP client and the server (Request Body Type)
+
+
+JAX-RS -Java specification for Restful Webservices
+Implemntors - Eclipse Jersey, Apache CXF (Serlet)
+
+Dependency Injection: EJB container(JBoss, Weblogic, Websphere, Glassfish), Spring, Google Guice etc.,
+
+JAX-RS + Jersey + Any container
+
+
+
+Architectural Patterns:
+MVC, SOA, REST, MOM
+
+
+MVC -> Controller(Servlet), View(jsp), Model(POJO, Spring, EJB)
+
+MVC Framework
+Spring MVC
+
+
+SpringMVC  (spring-webmv.jar)
+---------------
+Web Application :  @Controller  (returns view)
+Web Service :    @RestController (returns data - json/xml)
+
+
+
+
+
+
+User Registration Appication
+(Rest API)
+
+Resource name : user
+
+Endpoint (url / urn)
+
+/user      GET,POST,DELETE
+
+/user/<user-id>   GET,PUT,DELETE
+
+
+Custom Queries :  Request/Applicaton/Query Parameters
+retrieve all users registered in the year 2021
+
+/user/2021 X
+/user?year=2021
+
+
+retrieve first 10 users registered in the year 2021
+
+/user?year=2021&start=1&size=10
+* it uses Pagination pattern
+
+
+HttpEntity provides headers and body
+ResponseEntity extends HttpEntity and provides Status code
+
+
+
+@SpringBootApplication
+==================
+
+It will enable the below annotations by default:
+
+@Configuration
+|_ scan the configuration beans, annotated with @Bean  (JdbcTemplate, RestTemplate etc.,)
+
+@ComponentScan
+|_ scan for the steriotype annotations like @Controller/@RestController, @Service, @Repository, @Component
+
+
+@EnableAutoConfiguration
+|_spring-boot-starter-web -> @EnableWebMVC
+|_spring-boot-starter-security -> @EnableWebSecurity
+|_sprint-boot-starter-jms -> @EnableJMS
+
+
+https://12factor.net/  The twelve-factor app is a methodology for building software-as-a-service apps 
+
+IX. Disposability
+Maximize robustness with fast startup and graceful shutdown
+
+
+
+
+REST :  Representation State Transfer
+
+
+Client		        Server
+
+State Transfer        Representation
+
+
