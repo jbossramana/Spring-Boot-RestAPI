@@ -1,0 +1,73 @@
+Hibernate examples: [ Bean managed persistence]
+===================
+
+SessionFactory sessionFactory = .....
+
+Session session1 = sessionFactory.getSession();
+
+
+Account acc = new Account();  // transient object
+acc.setCustomerName("Ramana");
+acc.setAccType("Saving");
+
+session1.save(acc); // persistent object
+session1.flush();  //sync between L1 cache and table
+session1.close(); // L1 cache is cleared ... detached object
+
+acc.setCustomerName("Venkata Ramana"); //detached object
+
+Session session2 = sessionFactory.getSession();
+session2.update(acc); // persistent object
+session2.flush();
+session2.close();
+
+
+Session session3 = sessionFactory.getSession();
+Account acc1 = session3.get(Account.class, 1L);  // persistent object
+...
+...
+Account acc1a = session3.get(Account.class, 1L); // persistent object
+
+if (acc1==acc1a)  -> this condition is true
+
+Account acc1b = session4.get(Account.class, 1L); 
+
+if(acc1==acc1b) -> this condition is false
+
+Note: acc1 and acc1a are having same reference to Account object
+
+
+Hibernate with Spring  [Container managed persistence]
+=====================
+
+@Autowired/@PersistenceContext  [dependency injection]
+Session session;
+
+session.save(acc);
+
+Note: Session is managed by Spring Container
+
+Note: jpa uses EntityManager.If we use hibernate as an implementation,
+then EntityManager internally uses Session
+
+@Autowired/@PersistenceContext
+EntityManager entityManager;
+
+
+
+
+
+
+
+
+
+
+
+ORM -> Object Relation Mapping
+
+Account Class -> Mapping (xml/annotation) -> Account Table
+				             id  name    type
+					     1, Ramana, Saving
+
+
+
