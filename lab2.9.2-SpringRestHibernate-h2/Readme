@@ -1,3 +1,30 @@
+Task Management Service
+=======================
+
+CRUD Operations
+
+operation	http-method
+Create		POST
+Retrieve	GET
+Update	        UPDATE
+Delete	        DELETE
+
+Task service API
+=================
+Resource name : task
+
+Api Endpoint's:
+
+/task  -> GET, POST, DELETE
+/task/<id> -> GET,PUT,DELETE
+
+
+
+Test the application
+====================
+
+
+
 POST   http://localhost:8080/taskrestapp/task
        Content-Type: application/json
        Body: { "description": "Test REST", "completed": false }
