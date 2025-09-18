@@ -1,0 +1,15 @@
+@SpringBootApplication
+||
+@Configuration  -> it will scan for configuration beans, annotated with @Bean
+[JdbcTemplate, Datasource, EntityManagerFactory etc.,]
+
+@ComponentScan -> It will scan for sterio-type annotations
+|_ @Controller/@RestController -> Presentation Tier
+|_ @Service -> Business Tier
+|_ @Repository -> Data Tier
+|_ @Component -> Generic component [AOP]
+
+@EnableAutoConfiguration -> Scan for spring-boot starter classes and provide configuration
+|_ spring-boot-starter-web -> @EnableWebMvc
+|_ spring-boot-starter-security -> @EnableWebSecurity
+|_ spring-boot-starter-jms -> @EnableJms
