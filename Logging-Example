@@ -1,0 +1,35 @@
+1. Add the below dependency in pom.xml
+
+	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+
+# by default uses logback
+
+2. In the controller add the below entries
+
+private static final Logger logger = LoggerFactory.getLogger(SimpleController.class);
+
+  @GetMapping("/log")
+	    public String logMessages() {
+	        logger.info("INFO level log: API hit for /log endpoint.");
+	        logger.debug("DEBUG level log: Debugging the /log endpoint.");
+	        logger.error("ERROR level log: Simulating an error in /log.");
+	        logger.trace("TRACE level log");
+	        
+	        return "Check your logs!";
+	    }
+
+3. in application.properties
+
+# Set the logging level for root and specific packages
+logging.level.root=INFO
+logging.level.demo.boot.web.SimpleController=TRACE
+
+# Log to a file (optional)
+logging.file.name=app.log
+
+
+# Set log format in the console
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %msg%n
