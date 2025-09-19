@@ -1,3 +1,32 @@
+
+Step 1: Create the Category by sending a POST request to its endpoint.
+
+URL: http://localhost:8080/category
+
+Method: POST
+
+Body:
+
+{
+  "name": "New Category"
+}
+
+Step 2: Create the Task and link it to the Category using the URI from the previous step.
+
+URL: http://localhost:8080/task
+
+Method: POST
+
+Body:
+
+
+{
+  "description": "New Task Description",
+  "category": "http://localhost:8080/category/1"
+}
+
+
+
 @RepositoryRestResource(path = "employees", collectionResourceRel = "employees")
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
