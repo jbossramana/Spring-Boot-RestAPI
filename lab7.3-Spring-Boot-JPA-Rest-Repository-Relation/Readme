@@ -26,6 +26,15 @@ Body:
 }
 
 
+Notes:
+JPA Layer: This layer understands @ManyToOne and CascadeType.ALL. If you were to manually create and save both a Task and a 
+new Category instance in a service layer, the cascade would work perfectly.
+
+Spring Data REST Layer: This layer is designed to be a thin wrapper around your repositories, exposing them as REST 
+endpoints. It interprets the incoming JSON request as a set of properties to apply to the main resource (Task). 
+When it sees "category": { ... }, it doesn't see a new entity to create. Instead, it expects a link to an existing 
+resource, like "category": "/category/1".
+
 
 @RepositoryRestResource(path = "employees", collectionResourceRel = "employees")
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
