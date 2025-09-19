@@ -3,12 +3,17 @@ package demo.boot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import demo.boot.model.City;
 
@@ -43,7 +48,8 @@ public class CityControllerNew {
         restClient.post()
                 .uri(BASE_URL)
                 .body(city)
-                .retrieve();
+                .retrieve()
+                .toBodilessEntity(); 
     }
 
     @PutMapping("/{cityId}")
@@ -51,7 +57,8 @@ public class CityControllerNew {
         restClient.put()
                 .uri(BASE_URL + "/" + cityId)
                 .body(city)
-                .retrieve();
+                .retrieve()
+                .toBodilessEntity(); 
     }
 
     @DeleteMapping("/{cityId}")
